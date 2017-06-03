@@ -11,7 +11,7 @@ shadowJar {
 // load environment specific props from env profiles
 def environment = project.hasProperty('env') ? project.'env' : 'default'
 Properties props = new Properties()
-props.load(new FileInputStream("$project.rootDir/profile/"+"$environment"+".properties"))
+props.load(new FileInputStream("$project.rootDir/cfg/profile/"+"$environment"+".properties"))
 props.each { prop ->
     project.ext.set(prop.key, prop.value)
 }
@@ -22,8 +22,8 @@ props.each { prop ->
     s3Bucket = project.s3Bucket
     s3Prefix = "${project.getName()}-artifact-uploads"
     stackName = "${project.environment}-jvm-lambda-template"
-    samTemplatePath = "${project.rootDir.absolutePath}${File.separator}application.yaml"
+    samTemplatePath = "${project.rootDir.absolutePath}${File.separator}cfg${File.separator}application.yaml"
     tokenArtifactMap = [
-            '@@CODE_URI@@': "${project.buildDir.absolutePath}${File.separator}libs${File.separator}${project.getName()}.jar"
+            '@@CODE_URI@@': "${project.buildDir.absolutePath}${File.separator}libs${File.separator}${artifactId}.jar"
     ]
 }
