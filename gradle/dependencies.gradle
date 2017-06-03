@@ -1,0 +1,18 @@
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.8'
+    compile 'com.amazonaws:aws-lambda-java-core:1.1.0'
+    compile 'com.amazonaws:aws-lambda-java-log4j:1.0.0'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.scalatest:scalatest_2.11:3.0.1'
+    testCompile 'org.mockito:mockito-all:1.8.4'
+    testRuntime 'org.scala-lang.modules:scala-xml_2.11:1.0.6'
+
+    scoverage 'org.scoverage:scalac-scoverage-plugin_2.11:1.1.0'
+    scoverage 'org.scoverage:scalac-scoverage-runtime_2.11:1.1.0'
+}
