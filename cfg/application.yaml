@@ -6,11 +6,11 @@ Resources:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: >-
-         org.bearmug.aws.SimpleHandler::handleRequest
+         org.bearmug.aws.CodecHandler::handleRequest
       Runtime: java8
       Description: Java Caps Convert Function
-      MemorySize: 512
-      Timeout: 300
+      MemorySize: 128
+      Timeout: 100
       CodeUri: @@CODE_URI@@
       Role: !GetAtt LambdaRole.Arn
       Environment:

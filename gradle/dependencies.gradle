@@ -6,7 +6,7 @@ dependencies {
     compile 'org.scala-lang:scala-library:2.11.8'
     compile 'com.amazonaws:aws-lambda-java-core:1.1.0'
     compile 'com.amazonaws:aws-lambda-java-log4j:1.0.0'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'org.telegram:telegrambots:3.0.1'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.scalatest:scalatest_2.11:3.0.1'
