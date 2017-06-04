@@ -1,0 +1,18 @@
+plugins {
+    id 'scala'
+    id 'org.scoverage' version '2.1.0'
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+    id 'com.fieldju.aws-sam-deployer' version '1.6.0'
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+apply from: file('gradle/dependencies.gradle')
+apply from: file('gradle/test-coverage.gradle')
+apply from: file('gradle/deployment.gradle')
+
+
+
+
+
+

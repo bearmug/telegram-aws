@@ -1,0 +1,10 @@
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+coveralls {
+    coberturaReportPath = "${buildDir}/reports/scoverage/cobertura.xml"
+}
