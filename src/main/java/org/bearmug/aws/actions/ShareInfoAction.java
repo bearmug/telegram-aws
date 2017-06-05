@@ -8,31 +8,31 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboar
 import java.util.Arrays;
 import java.util.Collections;
 
-public class SetUserAction implements Action {
+public class ShareInfoAction implements Action {
     private final long chatId;
 
-    SetUserAction(long chatId) {
+    ShareInfoAction(long chatId) {
         this.chatId = chatId;
     }
 
     @Override
     public BotApiMethod respond() {
-        return new SendMessage(chatId, "Теперь вы посетитель, удачной экскурсии!")
+        return new SendMessage(chatId, "Поделитесь информацией о вас, экскурсионном бюро, ближайших экскурсиях")
                 .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(Arrays.asList(
                         Collections.singletonList(
-                                new InlineKeyboardButton("Что сейчас рядом со мной?").setCallbackData("/extras")
+                                new InlineKeyboardButton("Информация обо мне, гиде").setCallbackData("/post")
                         ),
                         Collections.singletonList(
-                                new InlineKeyboardButton("Дополнительная информация").setCallbackData("/info")
+                                new InlineKeyboardButton("Информация об экскурсионном бюро").setCallbackData("/post")
                         ),
                         Collections.singletonList(
-                                new InlineKeyboardButton("Я передумал, где метро?").setCallbackData("/metro")
+                                new InlineKeyboardButton("Ближайшие экскурсии").setCallbackData("/post")
                         ),
                         Collections.singletonList(
-                                new InlineKeyboardButton("Я потерялся, отведите меня к гиду!").setCallbackData("/find_guide")
+                                new InlineKeyboardButton("Запросить обратную связь").setCallbackData("/post")
                         ),
                         Collections.singletonList(
-                                new InlineKeyboardButton("Перестартовать").setCallbackData("/start")
+                                new InlineKeyboardButton("Вернуться").setCallbackData("/guide")
                         )
                 )));
     }

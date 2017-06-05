@@ -15,7 +15,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Lian data codec to/from JSON. The reason for this class to exist is that Telegram do post snake_case
+ * Lean data codec to/from JSON. The reason for this class to exist is that Telegram do post snake_case
  * json objects, but AWS Lambda configured to read camelCase incoming data.
  */
 public class CodecHandler implements RequestStreamHandler {

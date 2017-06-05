@@ -1,7 +1,7 @@
 package org.bearmug.aws.actions;
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -11,13 +11,13 @@ import java.util.Collections;
 public class SetGuideAction implements Action {
     private final long chatId;
 
-    public SetGuideAction(long chatId) {
+    SetGuideAction(long chatId) {
         this.chatId = chatId;
     }
 
     @Override
     public BotApiMethod respond() {
-        return new SendMessage(chatId, "Теперь вы гид, экскурсия запущена!")
+        return new EditMessageText().setChatId(chatId).setText("Теперь вы гид, экскурсия запущена!")
                 .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(Arrays.asList(
                         Collections.singletonList(
                                 new InlineKeyboardButton("Сопроводительный материал").setCallbackData("/extras")

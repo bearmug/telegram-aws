@@ -34,23 +34,24 @@ enum InputCommand {
 
     /* guide-related commands */
     G_INVITE("g_invite"), // not implemented
-    G_SHARE_EXTRAS("extras"),
+    EXTRAS("guided tour extras"),
     G_EXTRAS_1("g_extras_1"),
     G_EXTRAS_2("g_extras_2"),
     G_EXTRAS_3("g_extras_3"),
     G_SHARE_CONTEXT("g_context"),
-    G_CONTEXT_LOCATION("g_location"),
+    SHARE_LOCATION("update tourists with guide location"),
     G_CONTEXT_TOUR("g_tour"),
-    G_SHARE_INFO("g_info"),
+    INFO("share related information"),
     G_INFO_MYSELF("g_myself"),
     G_INFO_ORG("g_org"),
     G_INFO_MORE_TOURS("g_more"),
+    POST("dummy update"),
 
     /* visitor-related commands */
     V_REQUEST_INFO("v_info"),
     V_INFO_TOUR("v_tour"),
-    V_INFO_MORE("v_more"),
-    V_INFO_GUIDE("v_guide"),
+    METRO("metro location and route request"),
+    FIND_GUIDE("locate guide and navigate there"),
     V_INFO_EXTRAS("v_extras"),
     V_METRO("metro"),
     V_I_AM_LOST("lost");

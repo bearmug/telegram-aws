@@ -28,6 +28,18 @@ public class CommandParser {
                         return new SetGuideAction(chatId);
                     case VISITOR:
                         return new SetUserAction(chatId);
+                    case METRO:
+                        return new MetroAction(chatId);
+                    case FIND_GUIDE:
+                        return new FindGuideAction(chatId);
+                    case EXTRAS:
+                        return new ShareExtrasAction(chatId);
+                    case INFO:
+                        return new ShareInfoAction(chatId);
+                    case SHARE_LOCATION:
+                        return new ShareLocationAction(chatId);
+                    case POST:
+                        return new SomethingSharedAction(chatId);
                     default:
                         return new UnknownAction(chatId);
                 }

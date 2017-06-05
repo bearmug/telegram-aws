@@ -8,25 +8,22 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboar
 import java.util.Arrays;
 import java.util.Collections;
 
-public class StartAction implements Action {
+public class FindGuideAction implements Action {
     private final long chatId;
 
-    StartAction(long chatId) {
+    FindGuideAction(long chatId) {
         this.chatId = chatId;
     }
 
     @Override
     public BotApiMethod respond() {
-        return new SendMessage(chatId, "Приступим! Кто ты, гид или посетитель???")
+        return new SendMessage(chatId, "Вот ваш маршрут до гида. Тут совсем недалеко!")
                 .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(Arrays.asList(
                         Collections.singletonList(
-                                new InlineKeyboardButton("Я гид!!!").setCallbackData("/guide")
+                                new InlineKeyboardButton("Я передумал, где метро?").setCallbackData("/metro")
                         ),
                         Collections.singletonList(
-                                new InlineKeyboardButton("Посетитель я, пришел экскурсию посмотреть").setCallbackData("/visitor")
-                        ),
-                        Collections.singletonList(
-                                new InlineKeyboardButton("Что все это значит?").setCallbackData("/help")
+                                new InlineKeyboardButton("Перестартовать").setCallbackData("/start")
                         )
                 )));
     }

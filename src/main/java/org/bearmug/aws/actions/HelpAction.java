@@ -11,7 +11,7 @@ import java.util.Collections;
 public class HelpAction implements Action {
     private long chatId;
 
-    public HelpAction(long chatId) {
+    HelpAction(long chatId) {
         this.chatId = chatId;
     }
 
