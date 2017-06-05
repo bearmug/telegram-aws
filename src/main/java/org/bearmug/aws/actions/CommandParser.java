@@ -18,17 +18,22 @@ public class CommandParser {
     public Action getCommand(String text) {
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
-            switch (InputCommand.valueOf(matcher.group(1).toUpperCase())) {
-                case START:
-                    return new StartAction(chatId);
-                case HELP:
-                    return new HelpAction(chatId);
-                case GUIDE:
-                    return new SetGuideAction(chatId);
-                case VISITOR:
-                    return new SetUserAction(chatId);
-                default:
-                    return new UnknownAction(chatId);
+            try {
+                switch (InputCommand.valueOf(matcher.group(1).toUpperCase())) {
+                    case START:
+                        return new StartAction(chatId);
+                    case HELP:
+                        return new HelpAction(chatId);
+                    case GUIDE:
+                        return new SetGuideAction(chatId);
+                    case VISITOR:
+                        return new SetUserAction(chatId);
+                    default:
+                        return new UnknownAction(chatId);
+                }
+            } catch (IllegalArgumentException e) {
+                logger.warn("There are no specific command yet, responding with default to: " + text);
+                return new UnknownAction(chatId);
             }
 
         } else {

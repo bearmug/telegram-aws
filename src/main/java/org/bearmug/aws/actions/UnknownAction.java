@@ -43,6 +43,6 @@ public class UnknownAction implements Action {
     }
 
     private String randomResponse() {
-        return responses.get(new Random(System.currentTimeMillis()).nextInt() % responses.size());
+        return responses.get(new Random(System.currentTimeMillis()).nextInt(1000) % responses.size());
     }
 }
