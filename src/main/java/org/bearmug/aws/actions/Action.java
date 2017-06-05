@@ -21,44 +21,49 @@ public interface Action {
 
         @Override
         public BotApiMethod respond() {
-            return new SendMessage(update.getMessage().getChatId(),
-                    greetingsFor(update.getMessage().getChat().getFirstName()));
-        }
-
-        private String greetingsFor(String firstName) {
-            return "Приветики, " + firstName + "!! Этот бот работает нормально!";
+            return new CommandParser().getCommand(update.getMessage().getText()).respond();
         }
     }
+
+
 }
 
-enum Command {
-    /* standard commands */
-    START,
-    HELP,
+enum InputCommand {
+
+    /* basic commands */
+    START("Start tour"),
+    HELP("Get some help"),
+    UNKNOWN("unknown"),
 
     /* behavior type commands */
-    I_AM_THE_GUIDE,
-    I_AM_THE_VISITOR,
+    GUIDE("guide"),
+    VISITOR("visitor"),
 
     /* guide-related commands */
-    G_INVITE_VISITORS,
-    G_SHARE_EXTRAS,
-    G_EXTRAS_1,
-    G_EXTRAS_2,
-    G_EXTRAS_3,
-    G_SHARE_CONTEXT,
-    G_CONTEXT_LOCATION,
-    G_CONTEXT_TOUR,
-    G_SHARE_INFO,
-    G_INFO_MYSELF,
-    G_INFO_ORG,
-    G_INFO_MORE_TOURS,
+    G_INVITE("g_invite"),
+    G_SHARE_EXTRAS("g_extras"),
+    G_EXTRAS_1("g_extras_1"),
+    G_EXTRAS_2("g_extras_2"),
+    G_EXTRAS_3("g_extras_3"),
+    G_SHARE_CONTEXT("g_context"),
+    G_CONTEXT_LOCATION("g_location"),
+    G_CONTEXT_TOUR("g_tour"),
+    G_SHARE_INFO("g_info"),
+    G_INFO_MYSELF("g_myself"),
+    G_INFO_ORG("g_org"),
+    G_INFO_MORE_TOURS("g_more"),
 
     /* visitor-related commands */
-    V_REQUEST_INFO,
-    V_INFO_TOUR,
-    V_INFO_MORE,
-    V_INFO_GUIDE,
-    V_INFO_EXTRAS,
-    V_I_AM_LOST
+    V_REQUEST_INFO("v_info"),
+    V_INFO_TOUR("v_tour"),
+    V_INFO_MORE("v_more"),
+    V_INFO_GUIDE("v_guide"),
+    V_INFO_EXTRAS("v_extras"),
+    V_I_AM_LOST("lost");
+
+    final String value;
+
+    InputCommand(String value) {
+        this.value = value;
+    }
 }
