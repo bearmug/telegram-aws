@@ -9,23 +9,16 @@ public interface Action {
     BotApiMethod respond();
 
     static Action forInput(Update update) {
-        return new DefaultRouter(update);
-    }
-
-    class DefaultRouter implements Action {
-        private final Update update;
-
-        DefaultRouter(Update update) {
-            this.update = update;
-        }
-
-        @Override
-        public BotApiMethod respond() {
-            return new CommandParser().getCommand(update.getMessage().getText()).respond();
+        if (update.getMessage() != null) {
+            return new CommandParser(update.getMessage().getChatId())
+                    .getCommand(update.getMessage().getText());
+        } else if (update.getCallbackQuery() != null) {
+            return new CommandParser(update.getCallbackQuery().getMessage().getChatId())
+                    .getCommand(update.getCallbackQuery().getData());
+        } else {
+            throw new IllegalStateException("Wrong input data: " + update);
         }
     }
-
-
 }
 
 enum InputCommand {
@@ -40,8 +33,8 @@ enum InputCommand {
     VISITOR("visitor"),
 
     /* guide-related commands */
-    G_INVITE("g_invite"),
-    G_SHARE_EXTRAS("g_extras"),
+    G_INVITE("g_invite"), // not implemented
+    G_SHARE_EXTRAS("extras"),
     G_EXTRAS_1("g_extras_1"),
     G_EXTRAS_2("g_extras_2"),
     G_EXTRAS_3("g_extras_3"),
@@ -59,6 +52,7 @@ enum InputCommand {
     V_INFO_MORE("v_more"),
     V_INFO_GUIDE("v_guide"),
     V_INFO_EXTRAS("v_extras"),
+    V_METRO("metro"),
     V_I_AM_LOST("lost");
 
     final String value;

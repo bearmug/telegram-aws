@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TestCommandParser {
 
-    private final CommandParser parser = new CommandParser();
+    private final CommandParser parser = new CommandParser(0L);
 
     @Test
     public void startCommandParsedOk() {

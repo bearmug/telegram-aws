@@ -9,19 +9,30 @@ public class CommandParser {
 
     private final Logger logger = Logger.getLogger(CommandParser.class);
     private final Pattern pattern = Pattern.compile("/([a-z]+).*");
+    private final long chatId;
+
+    public CommandParser(Long chatId) {
+        this.chatId = chatId;
+    }
 
     public Action getCommand(String text) {
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
             switch (InputCommand.valueOf(matcher.group(1).toUpperCase())) {
                 case START:
-                    return new StartAction();
+                    return new StartAction(chatId);
+                case HELP:
+                    return new HelpAction(chatId);
+                case GUIDE:
+                    return new SetGuideAction(chatId);
+                case VISITOR:
+                    return new SetUserAction(chatId);
                 default:
-                    return new UnknownAction();
+                    return new UnknownAction(chatId);
             }
 
         } else {
-            return new UnknownAction();
+            return new UnknownAction(chatId);
         }
     }
 }
