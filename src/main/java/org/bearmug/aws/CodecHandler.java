@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.bearmug.aws.actions.Action;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Update;
 
@@ -28,13 +29,13 @@ public class CodecHandler implements RequestStreamHandler {
         final String rawUpdate = readDataFrom(input);
         logger.info("request json data is " + rawUpdate);
 
-        Update update = objectMapper.readValue(rawUpdate, Update.class);
+        final Update update = objectMapper.readValue(rawUpdate, Update.class);
         logger.info("request data object: " + update);
 
-        BotApiMethod answer = Router.route(update).answer();
-        logger.info("response data object: " + answer);
+        final BotApiMethod response = Action.forInput(update).respond();
+        logger.info("response data object: " + response);
 
-        output.write(objectMapper.writeValueAsBytes(answer));
+        output.write(objectMapper.writeValueAsBytes(response));
     }
 
     private String readDataFrom(InputStream input) throws IOException {
