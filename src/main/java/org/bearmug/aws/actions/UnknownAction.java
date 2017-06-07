@@ -17,9 +17,10 @@ public class UnknownAction extends TextAction {
             "Непонятно...."
     );
 
-    UnknownAction(long chatId) {
+    UnknownAction(long chatId, int messageId) {
         super(
                 chatId,
+                messageId,
                 randomResponse(),
                 "/start ->  Перестартовать",
                 "/help  ->  Что все это значит?"

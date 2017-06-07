@@ -11,9 +11,11 @@ public class CommandParser {
     private final Pattern pattern = Pattern.compile("/([a-z_]+).*");
     private final Long chatId;
     private final String text;
+    private final int messageId;
 
-    public CommandParser(Long chatId, String text) {
+    public CommandParser(Long chatId, int messageId, String text) {
         this.chatId = chatId;
+        this.messageId = messageId;
         this.text = text;
     }
 
@@ -27,6 +29,7 @@ public class CommandParser {
                     case START:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Приступим! Кто ты, гид или посетитель???",
                                 "/guide     ->  Я гид!!!",
                                 "/visitor   ->  Посетитель я, пришел экскурсию посмотреть",
@@ -34,6 +37,7 @@ public class CommandParser {
                     case HELP:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Это справочка по приложению. Здесь предложены подсказки по различным вопросам " +
                                         "и доступным командам. Управляйте ботом посредством команд, видных ниже. " +
                                         "Смело жмите /start, чтобы начать сначала",
@@ -45,6 +49,7 @@ public class CommandParser {
                     case GUIDE:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Теперь вы гид, экскурсия запущена!",
                                 "/extras            ->  Дополнить экскурсию",
                                 "/info              ->  Поделиться полезной информацией",
@@ -54,6 +59,7 @@ public class CommandParser {
                     case VISITOR:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Добро пожаловать на нашу замечательную экскурсию!",
                                 "/info  ->  Что интересненького расскажете?",
                                 "/metro ->  Я передумал, где метро?",
@@ -64,6 +70,7 @@ public class CommandParser {
                     case METRO:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "А вот и схема вашего маршрута до метро. Совсем близко!",
                                 "/lost  ->  Нет! Отведите меня к гиду!",
                                 "/start ->  Перестартовать",
@@ -72,6 +79,7 @@ public class CommandParser {
                     case LOST:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Вот ваш маршрут до гида. Тут совсем недалеко!",
                                 "/metro ->  Далековато! А где метро?",
                                 "/start ->  Перезапустись!",
@@ -80,6 +88,7 @@ public class CommandParser {
                     case EXTRAS:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Поделитесь дополнительными материалами с участниками экскурсии. " +
                                         "Вся информация строгопривязана к маршруту",
                                 "/post  ->  Информация по точкам",
@@ -91,6 +100,7 @@ public class CommandParser {
                     case INFO:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Инфо о гиде, экскурсионном бюро, ближайших экскурсиях",
                                 "/post  ->  Кто сегодня гид?",
                                 "/post  ->  Экскурсионное бюро",
@@ -101,27 +111,29 @@ public class CommandParser {
                     case SHARE_LOCATION:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Участникам экскурсии ушла схема маршрута до вас!",
                                 "/guide  ->  Меню гида"
                         );
                     case POST:
                         return new TextAction(
                                 chatId,
+                                messageId,
                                 "Эта страница - заглушка будущей функциональности",
                                 "/start  ->  Перестартовать",
                                 "/help  ->  Справка"
                         );
                     default:
-                        return new UnknownAction(chatId);
+                        return new UnknownAction(chatId, messageId);
                 }
             } catch (IllegalArgumentException e) {
                 logger.warn("There are no specific command yet, responding with default to: " + text);
-                return new UnknownAction(chatId);
+                return new UnknownAction(chatId, messageId);
             }
 
         } else {
             logger.info("No matches found for the input: " + text);
-            return new UnknownAction(chatId);
+            return new UnknownAction(chatId, messageId);
         }
     }
 }

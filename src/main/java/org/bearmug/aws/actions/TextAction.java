@@ -2,6 +2,7 @@ package org.bearmug.aws.actions;
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -22,11 +23,13 @@ public class TextAction implements Action {
     }
 
     private final List<Button> buttonList;
-    private final long replyTo;
+    private final long chatId;
+    private final int messageId;
     private final String response;
 
-    public TextAction(long replyTo, String response, String... actions) {
-        this.replyTo = replyTo;
+    public TextAction(long chatId, int messageId, String response, String... actions) {
+        this.chatId = chatId;
+        this.messageId = messageId;
         this.response = response;
         this.buttonList = buttons(actions);
     }
@@ -41,7 +44,18 @@ public class TextAction implements Action {
                         ))
                 .collect(Collectors.toList());
 
-        return new SendMessage(replyTo, response)
-                .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(actions));
+        if (messageId > 0) {
+            return new EditMessageText()
+                    .setText(response)
+                    .setChatId(chatId)
+                    .setMessageId(messageId)
+                    .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(actions));
+        } else {
+            return new SendMessage()
+                    .setText(response)
+                    .setChatId(chatId)
+                    .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(actions));
+        }
+
     }
 }

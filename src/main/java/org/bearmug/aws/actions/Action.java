@@ -16,9 +16,12 @@ public interface Action {
         Message message = update.getMessage();
         CallbackQuery callbackQuery = update.getCallbackQuery();
         if (message != null) {
-            return new CommandParser(message.getChatId(), message.getText()).getCommand();
+            return new CommandParser(message.getChatId(), -1, message.getText()).getCommand();
         } else if (callbackQuery != null) {
-            return new CommandParser(callbackQuery.getMessage().getChatId(), callbackQuery.getData()).getCommand();
+            return new CommandParser(
+                    callbackQuery.getMessage().getChatId(),
+                    callbackQuery.getMessage().getMessageId(),
+                    callbackQuery.getData()).getCommand();
         } else {
             throw new IllegalStateException("Wrong input data: " + update);
         }
