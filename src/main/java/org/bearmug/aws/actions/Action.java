@@ -1,11 +1,11 @@
 package org.bearmug.aws.actions;
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.CallbackQuery;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public interface Action {
@@ -13,20 +13,24 @@ public interface Action {
     BotApiMethod respond();
 
     static Action forInput(Update update) {
-        if (update.getMessage() != null) {
-            return new CommandParser(update.getMessage()).getCommand();
-        } else if (update.getCallbackQuery() != null) {
-            return new CommandParser(update.getCallbackQuery().getMessage()).getCommand();
+        Message message = update.getMessage();
+        CallbackQuery callbackQuery = update.getCallbackQuery();
+        if (message != null) {
+            return new CommandParser(message.getChatId(), message.getText()).getCommand();
+        } else if (callbackQuery != null) {
+            return new CommandParser(callbackQuery.getMessage().getChatId(), callbackQuery.getData()).getCommand();
         } else {
             throw new IllegalStateException("Wrong input data: " + update);
         }
+
     }
 
-    default Map<String, String> buttons(String... data) {
+    default List<TextAction.Button> buttons(String... data) {
         return Arrays.stream(data)
                 .map(entry -> entry.split("->"))
                 .filter(entry -> entry.length == 2)
-                .collect(Collectors.toMap(o -> o[0].trim(), o -> o[1].trim()));
+                .map(entry -> new TextAction.Button(entry[0], entry[1]))
+                .collect(Collectors.toList());
     }
 }
 

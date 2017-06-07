@@ -10,41 +10,40 @@ import static org.junit.Assert.assertEquals;
 public class TestCommandParser {
 
     private CommandParser parser;
-    private Message message;
-
-    @Before
-    public void setUp() {
-        message = Mockito.mock(Message.class);
-        parser = new CommandParser(message);
-    }
 
     @Test
     public void startCommandParsedOk() {
-        Mockito.when(message.getText()).thenReturn("/start");
+        parser = new CommandParser(1L, "/start");
         assertEquals(TextAction.class, parser.getCommand().getClass());
 
-        Mockito.when(message.getText()).thenReturn("/start ");
+        parser = new CommandParser(1L, "/start ");
         assertEquals(TextAction.class, parser.getCommand().getClass());
 
-        Mockito.when(message.getText()).thenReturn("/start ololo");
+        parser = new CommandParser(1L, "/start ololo");
         assertEquals(TextAction.class, parser.getCommand().getClass());
 
-        Mockito.when(message.getText()).thenReturn("/start текст");
+        parser = new CommandParser(1L, "/start текст");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
+    }
+
+    @Test
+    public void commandWithUnderscoreParsedOK() {
+        parser = new CommandParser(1L, "/share_location");
         assertEquals(TextAction.class, parser.getCommand().getClass());
     }
 
     @Test
     public void unknownCommandReplacementOk() {
-        Mockito.when(message.getText()).thenReturn("/unknown");
+        parser = new CommandParser(1L, "/unknown");
         assertEquals(UnknownAction.class, parser.getCommand().getClass());
 
-        Mockito.when(message.getText()).thenReturn("/");
+        parser = new CommandParser(1L, "/");
         assertEquals(UnknownAction.class, parser.getCommand().getClass());
 
-        Mockito.when(message.getText()).thenReturn("some text here");
+        parser = new CommandParser(1L, "some text here");
         assertEquals(UnknownAction.class, parser.getCommand().getClass());
 
-        Mockito.when(message.getText()).thenReturn("любой текст");
+        parser = new CommandParser(1L, "любой текст");
         assertEquals(UnknownAction.class, parser.getCommand().getClass());
     }
 }

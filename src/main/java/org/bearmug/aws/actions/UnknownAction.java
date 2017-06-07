@@ -1,7 +1,5 @@
 package org.bearmug.aws.actions;
 
-import org.telegram.telegrambots.api.objects.Message;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -19,9 +17,9 @@ public class UnknownAction extends TextAction {
             "Непонятно...."
     );
 
-    UnknownAction(Message message) {
+    UnknownAction(long chatId) {
         super(
-                message,
+                chatId,
                 randomResponse(),
                 "/start ->  Перестартовать",
                 "/help  ->  Что все это значит?"
