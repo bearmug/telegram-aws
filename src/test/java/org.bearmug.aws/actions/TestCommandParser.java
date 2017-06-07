@@ -13,37 +13,37 @@ public class TestCommandParser {
 
     @Test
     public void startCommandParsedOk() {
-        parser = new CommandParser(1L, "/start");
+        parser = new CommandParser(1L, -1, "/start");
         assertEquals(TextAction.class, parser.getCommand().getClass());
 
-        parser = new CommandParser(1L, "/start ");
+        parser = new CommandParser(1L, -1, "/start ");
         assertEquals(TextAction.class, parser.getCommand().getClass());
 
-        parser = new CommandParser(1L, "/start ololo");
+        parser = new CommandParser(1L, -1, "/start ololo");
         assertEquals(TextAction.class, parser.getCommand().getClass());
 
-        parser = new CommandParser(1L, "/start текст");
+        parser = new CommandParser(1L, -1, "/start текст");
         assertEquals(TextAction.class, parser.getCommand().getClass());
     }
 
     @Test
     public void commandWithUnderscoreParsedOK() {
-        parser = new CommandParser(1L, "/share_location");
+        parser = new CommandParser(1L, -1, "/share_location");
         assertEquals(TextAction.class, parser.getCommand().getClass());
     }
 
     @Test
     public void unknownCommandReplacementOk() {
-        parser = new CommandParser(1L, "/unknown");
+        parser = new CommandParser(1L, -1, "/unknown");
         assertEquals(UnknownAction.class, parser.getCommand().getClass());
 
-        parser = new CommandParser(1L, "/");
+        parser = new CommandParser(1L, -1, "/");
         assertEquals(UnknownAction.class, parser.getCommand().getClass());
 
-        parser = new CommandParser(1L, "some text here");
+        parser = new CommandParser(1L, -1, "some text here");
         assertEquals(UnknownAction.class, parser.getCommand().getClass());
 
-        parser = new CommandParser(1L, "любой текст");
+        parser = new CommandParser(1L, -1, "любой текст");
         assertEquals(UnknownAction.class, parser.getCommand().getClass());
     }
 }
