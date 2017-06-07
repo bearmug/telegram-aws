@@ -1,26 +1,50 @@
 package org.bearmug.aws.actions;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.telegram.telegrambots.api.objects.Message;
 
 import static org.junit.Assert.assertEquals;
 
 public class TestCommandParser {
 
-    private final CommandParser parser = new CommandParser(0L);
+    private CommandParser parser;
+    private Message message;
+
+    @Before
+    public void setUp() {
+        message = Mockito.mock(Message.class);
+        parser = new CommandParser(message);
+    }
 
     @Test
     public void startCommandParsedOk() {
-        assertEquals(StartAction.class, parser.getCommand("/start").getClass());
-        assertEquals(StartAction.class, parser.getCommand("/start ").getClass());
-        assertEquals(StartAction.class, parser.getCommand("/start and do something").getClass());
-        assertEquals(StartAction.class, parser.getCommand("/start здесь лишний текст").getClass());
+        Mockito.when(message.getText()).thenReturn("/start");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
+
+        Mockito.when(message.getText()).thenReturn("/start ");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
+
+        Mockito.when(message.getText()).thenReturn("/start ololo");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
+
+        Mockito.when(message.getText()).thenReturn("/start текст");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
     }
 
     @Test
     public void unknownCommandReplacementOk() {
-        assertEquals(UnknownAction.class, parser.getCommand("/unknown").getClass());
-        assertEquals(UnknownAction.class, parser.getCommand("/").getClass());
-        assertEquals(UnknownAction.class, parser.getCommand("some text here").getClass());
-        assertEquals(UnknownAction.class, parser.getCommand("любой текст").getClass());
+        Mockito.when(message.getText()).thenReturn("/unknown");
+        assertEquals(UnknownAction.class, parser.getCommand().getClass());
+
+        Mockito.when(message.getText()).thenReturn("/");
+        assertEquals(UnknownAction.class, parser.getCommand().getClass());
+
+        Mockito.when(message.getText()).thenReturn("some text here");
+        assertEquals(UnknownAction.class, parser.getCommand().getClass());
+
+        Mockito.when(message.getText()).thenReturn("любой текст");
+        assertEquals(UnknownAction.class, parser.getCommand().getClass());
     }
 }

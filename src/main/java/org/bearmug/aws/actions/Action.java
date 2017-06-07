@@ -4,20 +4,29 @@ import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public interface Action {
 
     BotApiMethod respond();
 
     static Action forInput(Update update) {
         if (update.getMessage() != null) {
-            return new CommandParser(update.getMessage().getChatId())
-                    .getCommand(update.getMessage().getText());
+            return new CommandParser(update.getMessage()).getCommand();
         } else if (update.getCallbackQuery() != null) {
-            return new CommandParser(update.getCallbackQuery().getMessage().getChatId())
-                    .getCommand(update.getCallbackQuery().getData());
+            return new CommandParser(update.getCallbackQuery().getMessage()).getCommand();
         } else {
             throw new IllegalStateException("Wrong input data: " + update);
         }
+    }
+
+    default Map<String, String> buttons(String... data) {
+        return Arrays.stream(data)
+                .map(entry -> entry.split("->"))
+                .filter(entry -> entry.length == 2)
+                .collect(Collectors.toMap(o -> o[0].trim(), o -> o[1].trim()));
     }
 }
 
@@ -51,7 +60,7 @@ enum InputCommand {
     V_REQUEST_INFO("v_info"),
     V_INFO_TOUR("v_tour"),
     METRO("metro location and route request"),
-    FIND_GUIDE("locate guide and navigate there"),
+    LOST("locate guide and navigate there"),
     V_INFO_EXTRAS("v_extras"),
     V_METRO("metro"),
     V_I_AM_LOST("lost");

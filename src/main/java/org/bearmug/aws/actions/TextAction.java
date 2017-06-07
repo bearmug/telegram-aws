@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 public class TextAction implements Action {
 
     private final Map<String, String> actionsMap;
-    private final Message message;
+    private final Message replyTo;
     private final String response;
 
-    public TextAction(Message message, Map<String, String> actionsMap, String response) {
-        this.message = message;
-        this.actionsMap = actionsMap;
+    public TextAction(Message replyTo, String response, String ... actions) {
+        this.replyTo = replyTo;
         this.response = response;
+        this.actionsMap = buttons(actions);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TextAction implements Action {
                         ))
                 .collect(Collectors.toList());
 
-        return new SendMessage(message.getChatId(), response)
+        return new SendMessage(replyTo.getChatId(), response)
                 .setReplyMarkup(new InlineKeyboardMarkup().setKeyboard(actions));
     }
 }
