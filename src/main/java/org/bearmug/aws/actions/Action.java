@@ -1,23 +1,39 @@
 package org.bearmug.aws.actions;
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.objects.CallbackQuery;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public interface Action {
 
     BotApiMethod respond();
 
     static Action forInput(Update update) {
-        if (update.getMessage() != null) {
-            return new CommandParser(update.getMessage().getChatId())
-                    .getCommand(update.getMessage().getText());
-        } else if (update.getCallbackQuery() != null) {
-            return new CommandParser(update.getCallbackQuery().getMessage().getChatId())
-                    .getCommand(update.getCallbackQuery().getData());
+        Message message = update.getMessage();
+        CallbackQuery callbackQuery = update.getCallbackQuery();
+        if (message != null) {
+            return new CommandParser(message.getChatId(), -1, message.getText()).getCommand();
+        } else if (callbackQuery != null) {
+            return new CommandParser(
+                    callbackQuery.getMessage().getChatId(),
+                    callbackQuery.getMessage().getMessageId(),
+                    callbackQuery.getData()).getCommand();
         } else {
             throw new IllegalStateException("Wrong input data: " + update);
         }
+
+    }
+
+    default List<TextAction.Button> buttons(String... data) {
+        return Arrays.stream(data)
+                .map(entry -> entry.split("->"))
+                .filter(entry -> entry.length == 2)
+                .map(entry -> new TextAction.Button(entry[0], entry[1]))
+                .collect(Collectors.toList());
     }
 }
 
@@ -51,7 +67,7 @@ enum InputCommand {
     V_REQUEST_INFO("v_info"),
     V_INFO_TOUR("v_tour"),
     METRO("metro location and route request"),
-    FIND_GUIDE("locate guide and navigate there"),
+    LOST("locate guide and navigate there"),
     V_INFO_EXTRAS("v_extras"),
     V_METRO("metro"),
     V_I_AM_LOST("lost");

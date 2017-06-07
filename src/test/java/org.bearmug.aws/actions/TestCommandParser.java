@@ -1,26 +1,49 @@
 package org.bearmug.aws.actions;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.telegram.telegrambots.api.objects.Message;
 
 import static org.junit.Assert.assertEquals;
 
 public class TestCommandParser {
 
-    private final CommandParser parser = new CommandParser(0L);
+    private CommandParser parser;
 
     @Test
     public void startCommandParsedOk() {
-        assertEquals(StartAction.class, parser.getCommand("/start").getClass());
-        assertEquals(StartAction.class, parser.getCommand("/start ").getClass());
-        assertEquals(StartAction.class, parser.getCommand("/start and do something").getClass());
-        assertEquals(StartAction.class, parser.getCommand("/start здесь лишний текст").getClass());
+        parser = new CommandParser(1L, -1, "/start");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
+
+        parser = new CommandParser(1L, -1, "/start ");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
+
+        parser = new CommandParser(1L, -1, "/start ololo");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
+
+        parser = new CommandParser(1L, -1, "/start текст");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
+    }
+
+    @Test
+    public void commandWithUnderscoreParsedOK() {
+        parser = new CommandParser(1L, -1, "/share_location");
+        assertEquals(TextAction.class, parser.getCommand().getClass());
     }
 
     @Test
     public void unknownCommandReplacementOk() {
-        assertEquals(UnknownAction.class, parser.getCommand("/unknown").getClass());
-        assertEquals(UnknownAction.class, parser.getCommand("/").getClass());
-        assertEquals(UnknownAction.class, parser.getCommand("some text here").getClass());
-        assertEquals(UnknownAction.class, parser.getCommand("любой текст").getClass());
+        parser = new CommandParser(1L, -1, "/unknown");
+        assertEquals(UnknownAction.class, parser.getCommand().getClass());
+
+        parser = new CommandParser(1L, -1, "/");
+        assertEquals(UnknownAction.class, parser.getCommand().getClass());
+
+        parser = new CommandParser(1L, -1, "some text here");
+        assertEquals(UnknownAction.class, parser.getCommand().getClass());
+
+        parser = new CommandParser(1L, -1, "любой текст");
+        assertEquals(UnknownAction.class, parser.getCommand().getClass());
     }
 }
