@@ -21,7 +21,8 @@ public class UnknownAction extends TextAction {
         super(
                 chatId,
                 messageId,
-                randomResponse(),
+                randomResponse() + " Попробуйте отдать команду боту с помощью кнопок в чате выше или просто " +
+                        "перестартуйте /start . Нужна помощь? Жмите /help",
                 "/start ->  Перестартовать",
                 "/help  ->  Что все это значит?"
         );
