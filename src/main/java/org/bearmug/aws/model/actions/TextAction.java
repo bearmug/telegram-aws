@@ -1,5 +1,6 @@
-package org.bearmug.aws.actions;
+package org.bearmug.aws.model.actions;
 
+import org.bearmug.aws.model.Action;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class TextAction implements Action {
 
-    static class Button {
+    public static class Button {
         private final String command;
         private final String text;
 
@@ -27,7 +28,7 @@ public class TextAction implements Action {
     private final int messageId;
     private final String response;
 
-    public TextAction(long chatId, int messageId, String response, String... actions) {
+    TextAction(long chatId, int messageId, String response, String... actions) {
         this.chatId = chatId;
         this.messageId = messageId;
         this.response = response;

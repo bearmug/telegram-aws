@@ -5,7 +5,7 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.bearmug.aws.actions.Action;
+import org.bearmug.aws.model.Action;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Update;
 
@@ -18,9 +18,9 @@ import java.nio.charset.StandardCharsets;
  * Lean data codec to/from JSON. The reason for this class to exist is that Telegram do post snake_case
  * json objects, but AWS Lambda configured to read camelCase incoming data.
  */
-public class CodecHandler implements RequestStreamHandler {
+public class RequestHandler implements RequestStreamHandler {
 
-    private final Logger logger = Logger.getLogger(CodecHandler.class);
+    private final Logger logger = Logger.getLogger(RequestHandler.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override

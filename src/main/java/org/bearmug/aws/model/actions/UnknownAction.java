@@ -1,10 +1,12 @@
-package org.bearmug.aws.actions;
+package org.bearmug.aws.model.actions;
+
+import org.bearmug.aws.model.Command;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class UnknownAction extends TextAction {
+class UnknownAction extends TextAction {
     private static final List<String> RESPONSES = Arrays.asList(
             "Эта команда мне, как боту, непонятна...",
             "Unknown request, please restart conversation",
@@ -17,10 +19,10 @@ public class UnknownAction extends TextAction {
             "Непонятно...."
     );
 
-    UnknownAction(long chatId, int messageId) {
+    UnknownAction(Command command) {
         super(
-                chatId,
-                messageId,
+                command.chatId,
+                command.messageId,
                 randomResponse() + " Попробуйте отдать команду боту с помощью кнопок в чате под этим " +
                         "сообщением или просто перестартуйте диалог командой /start . Команды не умещаются на экране? " +
                         "Попробуйте скрыть буквеную клавиатуру. Нужна помощь? Жмите /help",

@@ -6,7 +6,7 @@ Resources:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: >-
-         org.bearmug.aws.CodecHandler::handleRequest
+         org.bearmug.aws.RequestHandler::handleRequest
       Runtime: java8
       Description: Java Caps Convert Function
       MemorySize: 128
