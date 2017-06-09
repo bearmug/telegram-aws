@@ -38,7 +38,7 @@ public class TestCommandParser {
         parser = new ActionParser(new Command(1L, -1, "/"));
         assertEquals(UnknownAction.class, parser.getAction().getClass());
 
-        parser = new ActionParser(new Command(1L, -1, "some text here"));
+        parser = new ActionParser(new Command(1L, -1, "some command here"));
         assertEquals(UnknownAction.class, parser.getAction().getClass());
 
         parser = new ActionParser(new Command(1L, -1, "любой текст"));

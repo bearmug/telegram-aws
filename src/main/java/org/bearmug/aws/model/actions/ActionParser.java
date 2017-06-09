@@ -19,7 +19,7 @@ public class ActionParser {
     }
 
     public Action getAction() {
-        Matcher matcher = pattern.matcher(command.text);
+        Matcher matcher = pattern.matcher(command.command);
         if (matcher.find()) {
             try {
                 CommandType type = CommandType.valueOf(matcher.group(1).toUpperCase());
@@ -126,12 +126,12 @@ public class ActionParser {
                         return new UnknownAction(command);
                 }
             } catch (IllegalArgumentException e) {
-                logger.warn("There are no specific command yet, responding with default to: " + command.text);
+                logger.warn("There are no specific command yet, responding with default to: " + command.command);
                 return new UnknownAction(command);
             }
 
         } else {
-            logger.info("No matches found for the input: " + command.text);
+            logger.info("No matches found for the input: " + command.command);
             return new UnknownAction(command);
         }
     }

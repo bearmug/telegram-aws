@@ -1,5 +1,8 @@
 package org.bearmug.aws.model;
 
+/**
+ * existing commands, which could be processed by the system
+ */
 public enum CommandType {
 
     /* basic commands */

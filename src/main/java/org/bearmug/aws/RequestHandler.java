@@ -29,9 +29,11 @@ public class RequestHandler implements RequestStreamHandler {
         final String rawUpdate = readDataFrom(input);
         logger.info("request json data is " + rawUpdate);
 
+        // Telegram API object parsed from JSON
         final Update update = objectMapper.readValue(rawUpdate, Update.class);
         logger.info("request data object: " + update);
 
+        // Telegram API object prepare for JSON serializaion
         final BotApiMethod response = Action.forInput(update).respond();
         logger.info("response data object: " + response);
 

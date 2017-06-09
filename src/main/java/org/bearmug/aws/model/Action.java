@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Entity, producing certain output.
+ */
 public interface Action {
 
     BotApiMethod respond();
@@ -31,14 +34,6 @@ public interface Action {
         }
 
         return new ActionParser(command).getAction();
-    }
-
-    default List<TextAction.Button> buttons(String... data) {
-        return Arrays.stream(data)
-                .map(entry -> entry.split("->"))
-                .filter(entry -> entry.length == 2)
-                .map(entry -> new TextAction.Button(entry[0], entry[1]))
-                .collect(Collectors.toList());
     }
 }
 
